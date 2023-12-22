@@ -1,4 +1,5 @@
 require 'date'
+require 'set'
 require 'pry'
 
 def solution(s)
@@ -40,9 +41,8 @@ module Gallery
 
       raise InvalidInputError.new("Invalid line: #{line_number} - #{line}") unless YEAR_RANGE.cover? parsed_datetime.year
 
-      @city_timestamps[city] ||= []
-      raise BrokenSpaceTimeError.new("Invalid line: #{line_number} - #{line}") if @city_timestamps[city].include?(datetime)
-      @city_timestamps[city] << datetime
+      @city_timestamps[city] ||= Set.new
+      raise BrokenSpaceTimeError.new("Invalid line: #{line_number} - #{line}") unless @city_timestamps[city].add?(datetime)
 
       [extension, city, parsed_datetime]
     end
